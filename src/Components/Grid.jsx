@@ -1,5 +1,6 @@
 import { AgGridReact } from 'ag-grid-react'; 
 import { 
+    useContext,
     useRef,
     useCallback,
     useState, 
@@ -15,6 +16,7 @@ import {
     ModuleRegistry } from 'ag-grid-community'; 
 
 import { ServerSideRowModelModule } from 'ag-grid-enterprise';
+import { GridContext } from '../App';
 
 import './Grid.css';
 
@@ -30,6 +32,12 @@ ModuleRegistry.registerModules([
 
 function Grid(){
     const gridRef = useRef(null);
+    const {serverSide} = useContext(GridContext);
+
+    useEffect(() => {
+        console.log('inGrid: ', serverSide)
+    },[serverSide])
+
     const [rowData, setRowData] = useState([
         { BillingNo: "20250504-0001", PolicyNo: "28374619283", BillingDate: "2025-05-08", Product: "CIA", MonthsBilled: 3, Amount: 150000.00, Status: "Paid" },
         { BillingNo: "20250504-0002", PolicyNo: "19283746501", BillingDate: "2025-05-08", Product: "FBI", MonthsBilled: 3, Amount: 50000.00, Status: "Not Paid" },
@@ -119,31 +127,33 @@ function Grid(){
 
             await sleep(2000);
             params.success({rowData: rowData})
-        },
+        }
     };
-    const ssrm = (params) =>{
-        console.log("[Datasource] Requesting rows", params.request);
-    }
     function sleep(ms) {
         return new Promise(resolve => setTimeout(resolve, ms));
     }
     return (
-        <div style={{ height: 500, width: '60%' }}>
+        <div className='is-flex is-flex-direction-column is-align-items-center' style={{width:'100%'}}>
             <input
+                style={{width: '100%'}}
                 class="input mb-4"
                 type="text"
                 id="globalFilter"
                 placeholder="Search..."
                 onInput={globalFilterCallback}
             />
-            <AgGridReact
-                ref={gridRef}
-                rowData={rowData}
-                columnDefs={colDefs}
-                rowModelType="serverSide" 
-                // onGridReady={ssrm}
-                serverSideDatasource={datasource}
-            />
+            <div style={{ height: 500, width: '100%'}}>
+                <AgGridReact
+                    key={serverSide ? 'server' : 'client'}
+                    ref={gridRef}
+                    rowData={rowData}
+                    columnDefs={colDefs}
+                    {...(serverSide && {
+                        rowModelType:"serverSide",
+                        serverSideDatasource: datasource
+                    })}
+                />
+            </div>
         </div>
     )
 
