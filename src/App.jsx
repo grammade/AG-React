@@ -8,7 +8,7 @@ const GridContext = createContext();
 function App() {
 
   
-  const [serverSide, setServerSide] = useState(true);
+  const [serverSide, setServerSide] = useState(false);
   return (
     <div className="App">
       <header className="App-header">
@@ -17,9 +17,9 @@ function App() {
       <div className="App-body">
         <GridContext.Provider value={{serverSide, setServerSide}}>
           <Grid/>
-          <button className='button m-3' 
+          <button className='button  is-primary m-3' 
             style={{alignSelf: 'flex-end'}}
-            onClick={() => {console.log('test');setServerSide(!serverSide)}}>Toggle Server Side</button>
+            onClick={() => {console.log('test');setServerSide(!serverSide)}}>Set {!serverSide ? 'server' : 'client'} side</button>
         </GridContext.Provider>
       </div>
     </div>
