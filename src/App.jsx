@@ -2,24 +2,25 @@ import logo from './logo.svg';
 import './App.css';
 import Grid from './Components/Grid';
 import { createContext, useState } from 'react';
-import PolicyPage from './Page/PolicyPage';
+import Policy from './Page/Policy';
+import { Flex } from 'antd';
+import PolicyList from './Page/PolicyList';
 
 const GridContext = createContext();
 
 function App() {
-
-  
   const [serverSide, setServerSide] = useState(false);
   return (
-    <div className="App">
+    <Flex vertical className='App-body'>
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" style={{height:100, paddingBottom:50}}/>
+        <img src={logo} className="App-logo" alt="logo" style={{ height: 100, paddingBottom: 50 }} />
       </header>
-      <div className="App-body">
-        <PolicyPage/>
-      </div>
-    </div>
+      <Flex vertical={false} justify='space-between'>
+        <PolicyList />
+        <Policy />
+      </Flex>
+    </Flex>
   );
 }
 
-export {App, GridContext};
+export { App, GridContext };

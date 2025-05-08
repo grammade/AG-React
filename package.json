@@ -10,7 +10,9 @@
     "ag-grid-enterprise": "^33.2.4",
     "ag-grid-react": "^33.2.4",
     "antd": "^5.24.9",
+    "axios": "^1.9.0",
     "dotenv": "^16.5.0",
+    "http-proxy-middleware": "^3.0.5",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "react-router-dom": "^7.5.3",
@@ -18,7 +20,7 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "dev": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
