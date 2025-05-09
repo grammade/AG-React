@@ -17,7 +17,7 @@ function App() {
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" style={{ height: 100, paddingBottom: 50 }} />
       </header>
-      <Flex vertical={false} justify='flex-start' gap={6}>
+      <Flex vertical={false} justify='center' gap={6}>
         <div style={{width:'50%'}}>
           <PolicyList/>
         </div>

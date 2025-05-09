@@ -7,99 +7,14 @@ import "./PolicyList.css";
 const host = process.env.REACT_APP_HOST;
 const endpoint = process.env.REACT_APP_API_POLICY;
 
-const dataSource = [
-  {
-    key: "1",
-    policyno: "300-100-0091218",
-    paidtodate: "2022-05-17T21:16:32.99",
-    statusid: "CA",
-    remark: "N/A", // Handling null case
-    isautorenew: false,
-    productid: "AMMS",
-    totalpremium: 100000,
-    currencyid: "IDR",
-    agentid: "Partner",
-  },
-  {
-    key: "2",
-    policyno: "300-100-123123",
-    paidtodate: "2022-05-17T21:16:32.99",
-    statusid: "CA",
-    remark: "N/A", // Handling null case
-    isautorenew: false,
-    productid: "AMMS",
-    totalpremium: 100000,
-    currencyid: "IDR",
-    agentid: "Partner",
-  },
-];
 
-// Column definitions
-const columns = [
-  {
-    title: "Policy No",
-    dataIndex: "policyno",
-    key: "policyno",
-    width: 110,
-  },
-  {
-    title: "Paid To Date",
-    dataIndex: "paidtodate",
-    key: "paidtodate",
-    width: 100,
-  },
-  {
-    title: "Status",
-    dataIndex: "statusid",
-    key: "statusid",
-    ellipsis: true,
-  },
-  {
-    title: "Remark",
-    dataIndex: "remark",
-    key: "remark",
-    width: 90,
-    ellipsis: true,
-    render: (text) => (text ? text : "No Remark"), // Handling null case
-  },
-  {
-    title: "Auto Renew",
-    dataIndex: "isautorenew",
-    key: "isautorenew",
-    ellipsis: true,
-    render: (text) => (text ? "Yes" : "No"),
-  },
-  {
-    title: "Product ID",
-    dataIndex: "productid",
-    key: "productid",
-    ellipsis: true,
-  },
-  {
-    title: "Total Premium",
-    dataIndex: "totalpremium",
-    key: "totalpremium",
-    width: 100,
-    ellipsis: true,
-  },
-  {
-    title: "Currency",
-    dataIndex: "currencyid",
-    key: "currencyid",
-    ellipsis: true,
-  },
-  {
-    title: "Agent ID",
-    dataIndex: "agentid",
-    key: "agentid",
-    ellipsis: true,
-  },
-];
-
+const handlePolicyClick = (policy) => {
+  console.log(policy)
+}
 const PolicyList = () => {
   const [data, setData] = useState();
   const [currentPage, setCurrentPage] = useState(1);
-  const [pageSize, setPageSize] = useState(10);
+  const [pageSize, setPageSize] = useState(20);
   const [total, setTotal] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -114,11 +29,11 @@ const PolicyList = () => {
       .then((res) => {
         res.data.data.map((item) => {
           item.key = item.policyno;
-          item.paidtodate = dayjs(item.paidtodate).format("DD MMMM YYYY");
+          item.paidtodate = dayjs(item.paidtodate).format("DD MMM YYYY");
           return item;
         });
         setData(res.data.data);
-        setData(res.data.total);
+        setTotal(res.data.total);
         setIsLoading(false);
         console.log(res.data);
       })
@@ -126,7 +41,7 @@ const PolicyList = () => {
         console.log("failed fetching");
         dataSource.map((item) => {
           item.key = item.policyno;
-          item.paidtodate = dayjs(item.paidtodate).format("DD MMMM YYYY");
+          item.paidtodate = dayjs(item.paidtodate).format("DD MMM YYYY");
           return item;
         });
         setData(dataSource);
@@ -162,5 +77,99 @@ const PolicyList = () => {
     />
   );
 };
+
+
+const dataSource = [
+  {
+    key: "1",
+    policyno: "300-100-0091218",
+    paidtodate: "2022-05-17T21:16:32.99",
+    statusid: "CA",
+    remark: "N/A", // Handling null case
+    isautorenew: false,
+    productid: "AMMS",
+    totalpremium: 100000,
+    currencyid: "IDR",
+    agentid: "Partner",
+  },
+  {
+    key: "2",
+    policyno: "300-100-123123",
+    paidtodate: "2022-05-17T21:16:32.99",
+    statusid: "CA",
+    remark: "N/A", // Handling null case
+    isautorenew: false,
+    productid: "AMMS",
+    totalpremium: 100000,
+    currencyid: "IDR",
+    agentid: "Partner",
+  },
+];
+
+// Column definitions
+const columns = [
+  {
+    title: "Policy No",
+    dataIndex: "policyno",
+    key: "policyno",
+    width: 110,
+    render: (value, row) => (
+      <a onClick={() => handlePolicyClick(value)}>{value}</a>
+    )
+  },
+  {
+    title: "Paid To Date",
+    dataIndex: "paidtodate",
+    key: "paidtodate",
+    width: 100,
+  },
+  {
+    title: "Status",
+    dataIndex: "statusid",
+    key: "statusid",
+    ellipsis: true,
+  },
+  {
+    title: "Remark",
+    dataIndex: "remark",
+    key: "remark",
+    width: 90,
+    ellipsis: true,
+    render: (text) => (text ? text : "No Remark"), // Handling null case
+  },
+  {
+    title: "Auto Renew",
+    dataIndex: "isautorenew",
+    key: "isautorenew",
+    ellipsis: true,
+    render: (text) => (text ? "Yes" : "No"),
+  },
+  {
+    title: "Product",
+    dataIndex: "productid",
+    key: "productid",
+    ellipsis: true,
+    width: 70,
+  },
+  {
+    title: "Total Premium",
+    dataIndex: "totalpremium",
+    key: "totalpremium",
+    width: 100,
+    ellipsis: true,
+  },
+  {
+    title: "Currency",
+    dataIndex: "currencyid",
+    key: "currencyid",
+    ellipsis: true,
+  },
+  {
+    title: "Agent ID",
+    dataIndex: "agentid",
+    key: "agentid",
+    ellipsis: true,
+  },
+];
 
 export default PolicyList;
