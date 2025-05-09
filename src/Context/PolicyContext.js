@@ -8,7 +8,7 @@ export const PolicyProvider = ({children}) => {
 
     return(
         <PolicyContext.Provider value={{selectedPolicy, setSelectedPolicy, selectedPolicyLoading, setSelectedPolicyLoading}}>
-            {{children}}
+            {children}
         </PolicyContext.Provider>
     )
 }
