@@ -1,12 +1,13 @@
 import logo from './logo.svg';
 import './App.css';
-import Grid from './Components/Grid';
 import { createContext, useEffect } from 'react';
 import Policy from './Page/Policy';
 import { Flex } from 'antd';
 import PolicyList from './Page/PolicyList';
 import axios from 'axios';
 import Insured from './Page/Insured';
+import Product from './Page/Product';
+import Holder from './Page/Holder';
 
 const GridContext = createContext();
 
@@ -21,7 +22,9 @@ function App() {
           <PolicyList/>
         </div>
         <Policy />
+        <Holder />
         <Insured/>
+        <Product/>
       </Flex>
     </Flex>
   );

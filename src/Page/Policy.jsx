@@ -11,7 +11,8 @@ const Policy = () => {
   };
 
   return (
-    <Card title="Policy" size="small">
+    <Card title="Policy" size="small" loading={false} style={{ width: 200 }}>
+      <div className="has-text-centered is-italic">No data selected</div>
       <Form
         form={form}
         layout="vertical"
@@ -23,7 +24,7 @@ const Policy = () => {
           label="Policy No."
           name="policyNo"
           rules={[{ required: true, message: "Please enter Policy Number" }]}
-          style={{marginBottom:5}}
+          style={{ marginBottom: 5 }}
         >
           <Input placeholder="Enter policy number" />
         </Form.Item>
@@ -32,7 +33,7 @@ const Policy = () => {
           label="Product"
           name="product"
           rules={[{ required: true, message: "Please enter Product Number" }]}
-          style={{marginBottom:5}}
+          style={{ marginBottom: 5 }}
         >
           <Input placeholder="Enter Product" />
         </Form.Item>
@@ -41,7 +42,7 @@ const Policy = () => {
           label="Policy Status"
           name="policyStatus"
           rules={[{ required: true, message: "Please select Policy Status" }]}
-          style={{marginBottom:5}}
+          style={{ marginBottom: 5 }}
         >
           <Select placeholder="Select status">
             <Option value="active">Active</Option>
@@ -54,22 +55,27 @@ const Policy = () => {
           label="Customer Name"
           name="customerName"
           rules={[{ required: true, message: "Please enter Customer Name" }]}
-          style={{marginBottom:5}}
+          style={{ marginBottom: 5 }}
         >
           <Input placeholder="Enter customer name" />
         </Form.Item>
 
-        <Form.Item label="Premium" name="premi"
-          style={{marginBottom:5}}>
+        <Form.Item label="Premium" name="premi" style={{ marginBottom: 5 }}>
           <Input />
         </Form.Item>
-        <Form.Item label="Input Date" name="inputDate"
-          style={{marginBottom:5}}>
+        <Form.Item
+          label="Input Date"
+          name="inputDate"
+          style={{ marginBottom: 5 }}
+        >
           <Input />
         </Form.Item>
 
-        <Form.Item label="Application Date" name="applicationDate"
-          style={{marginBottom:5}}>
+        <Form.Item
+          label="Application Date"
+          name="applicationDate"
+          style={{ marginBottom: 5 }}
+        >
           <Input />
         </Form.Item>
 
@@ -77,7 +83,7 @@ const Policy = () => {
           label="Paid To Date"
           name="paidToDate"
           rules={[{ required: true, message: "Please enter Paid To Date" }]}
-          style={{marginBottom:5}}
+          style={{ marginBottom: 5 }}
         >
           <Input placeholder="Enter paid to date (e.g., 2025-12-31)" />
         </Form.Item>
@@ -85,14 +91,14 @@ const Policy = () => {
         <Form.Item label="Cancel Date" name="cancelDate">
           <Input />
         </Form.Item>
-        
-        <Space>
-        <Button type="primary" htmlType="submit" block>
-          Submit
-        </Button>
-        <Button type="default" block>
-          Cancel
-        </Button>
+
+        <Space className="pt-6">
+          <Button type="primary" htmlType="submit" block>
+            Submit
+          </Button>
+          <Button type="default" block>
+            Cancel
+          </Button>
         </Space>
       </Form>
     </Card>
