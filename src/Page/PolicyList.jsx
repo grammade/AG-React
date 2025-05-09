@@ -107,10 +107,19 @@ const PolicyList = () => {
 
             const res = await axios
                 .post(`${host}/${endpoint}`, body, { headers })
-                .catch((reason) => console.log(reason));
-            console.log('response: ', res);
-            setData(res.data.data);
-            setIsLoading(false)
+                .then((res) => {
+                    res.data.data.map(item => {
+                        item.key = item.policyno;
+                    })
+                    setData(res.data.data);
+                    setIsLoading(false)
+                    console.log(res.data);
+                })
+                .catch((reason) =>{
+                    console.log('failed fetching')
+                    setData(dataSource);
+                    setIsLoading(false);
+                });
         }
         fetchPolicyList();
     }, [])
