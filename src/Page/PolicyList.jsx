@@ -18,6 +18,18 @@ const dataSource = [
         currencyid: "IDR",
         agentid: "Partner",
     },
+    {
+        key: "2",
+        policyno: "300-100-123123",
+        paidtodate: "2022-05-17T21:16:32.99",
+        statusid: "CA",
+        remark: "N/A", // Handling null case
+        isautorenew: false,
+        productid: "AMMS",
+        totalpremium: 100000,
+        currencyid: "IDR",
+        agentid: "Partner",
+    },
 ];
 
 // Column definitions
@@ -26,72 +38,85 @@ const columns = [
         title: "Policy No",
         dataIndex: "policyno",
         key: "policyno",
+        ellipsis: true,
     },
     {
         title: "Paid To Date",
         dataIndex: "paidtodate",
         key: "paidtodate",
+        ellipsis: true,
     },
     {
         title: "Status ID",
         dataIndex: "statusid",
         key: "statusid",
+        ellipsis: true,
     },
     {
         title: "Remark",
         dataIndex: "remark",
         key: "remark",
+        ellipsis: true,
         render: (text) => (text ? text : "No Remark"), // Handling null case
     },
     {
         title: "Auto Renew",
         dataIndex: "isautorenew",
         key: "isautorenew",
+        ellipsis: true,
         render: (text) => (text ? "Yes" : "No"),
     },
     {
         title: "Product ID",
         dataIndex: "productid",
         key: "productid",
+        ellipsis: true,
     },
     {
         title: "Total Premium",
         dataIndex: "totalpremium",
         key: "totalpremium",
+        ellipsis: true,
     },
     {
         title: "Currency",
         dataIndex: "currencyid",
         key: "currencyid",
+        ellipsis: true,
     },
     {
         title: "Agent ID",
         dataIndex: "agentid",
         key: "agentid",
+        ellipsis: true,
     },
 ];
 
 
 const PolicyList = () => {
-    const [data, setData] = useState([]);
+    const [data, setData] = useState();
+    const [isLoading, setIsLoading] = useState(true)
 
-    
+
     useEffect(() => {
         const fetchPolicyList = async () => {
-            console.log('fetching policy list')
-            
-            const body = {take: 20, skip: 0}
-            const res = await axios.post("/api/api/Policy/pagination", body)
-                .catch((reason) => console.log(reason))
-            console.log(res.data)
-            setData(res.data);
+            const body = { take: 20, skip: 0 }
+            const headers = {
+                "Content-Type": "application/json"
+            };
+
+            const res = await axios
+                .post(`${host}/${endpoint}`, body, { headers })
+                .catch((reason) => console.log(reason));
+            console.log('response: ', res);
+            setData(res.data.data);
+            setIsLoading(false)
         }
-        
         fetchPolicyList();
     }, [])
 
     return (
-        <Table dataSource={data} columns={columns} size="small"/>
+        <Table dataSource={data} columns={columns} size="small" loading={isLoading}/>
     )
 
 }
