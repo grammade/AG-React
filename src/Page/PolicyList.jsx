@@ -42,7 +42,7 @@ const PolicyList = () => {
       key: "policyno",
       width: 110,
       render: (value, row) => (
-        <a onClick={() => handlePolicyClick(value)}>{value}</a>
+        <a onClick={() => handlePolicyClick(row)}>{value}</a>
       ),
     },
     {
@@ -112,12 +112,9 @@ const PolicyList = () => {
 
   const handlePolicyClick = (policy) => {
     setSelectedPolicy(policy);
-    setSelectedPolicyLoading(true);
-    setTimeout(() => {
-        setSelectedPolicyLoading(false)
-    }, 3000);
   };
   const fetchPolicyList = async (page, pageSize) => {
+    setIsLoading(true);
     const body = { take: pageSize, skip: (page - 1) * pageSize };
     const headers = {
       "Content-Type": "application/json",
@@ -173,6 +170,7 @@ const PolicyList = () => {
         showSizeChanger: true,
         onChange: handlePageChange,
       }}
+      style={{overflow: 'hidden'}}
     />
   );
 };

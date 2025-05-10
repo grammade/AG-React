@@ -1,12 +1,38 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 import { Form, Input, Select, Button, Card, Space, Flex } from "antd";
 import { usePolicy } from "../Context/PolicyContext";
+import axios from "axios";
 
 const { Option } = Select;
+const hostDetail = process.env.REACT_APP_API_INSURED_DETAIL;
 
 const Insured = () => {
-  const { selectedPolicy, selectedPolicyLoading } = usePolicy();
+  const { selectedPolicy } = usePolicy();
+  const [loading, setLoading] = useState(false);
   const [form] = Form.useForm();
+  
+  useEffect(() => {
+    
+    const fetchDetail = async()=>{
+      setLoading(true);
+      const headers = {
+        "Content-Type": "application/json"
+      }
+      
+      const policyno = selectedPolicy.policyno;
+      await axios.get(`${hostDetail}/${policyno}`, {headers})
+        .then((res) => {
+          console.log('insured detail: ', res.data);
+          setTimeout(() => {
+            
+            setLoading(false);
+          }, Math.random()*3 * 1000);
+        })
+    }
+    
+    if(selectedPolicy != null)
+      fetchDetail();
+  },[selectedPolicy])
 
   const handleSubmit = (values) => {
     console.log("Form Submitted:", values);
@@ -16,7 +42,7 @@ const Insured = () => {
     <Card
       title="Insured Information"
       size="small"
-      loading={selectedPolicyLoading} 
+      loading={loading} 
       style={{ height: "fit-content", width:200}}
     >
       {selectedPolicy === null ? (

@@ -1,12 +1,38 @@
 import React, { useEffect, useState } from "react";
 import { Form, Input, Select, Button, Card, Space } from "antd";
 import { usePolicy } from "../Context/PolicyContext";
+import axios from "axios";
 
 const { Option } = Select;
+const hostDetail = process.env.REACT_APP_API_CUSTOMER_DETAIL;
 
 const Holder = () => {
-  const { selectedPolicy, selectedPolicyLoading } = usePolicy();
+  const { selectedPolicy } = usePolicy();
+  const [loading, setLoading] = useState(false);
   const [form] = Form.useForm();
+  
+  useEffect(() => {
+    
+    const fetchDetail = async()=>{
+      setLoading(true);
+      const headers = {
+        "Content-Type": "application/json"
+      }
+      
+      const customerid = selectedPolicy.customerid;
+      await axios.get(`${hostDetail}/${customerid}`, {headers})
+        .then((res) => {
+          console.log('holder detail: ', res.data);
+          setTimeout(() => {
+            
+            setLoading(false);
+          }, Math.random()*3 * 1000);
+        })
+    }
+    
+    if(selectedPolicy != null)
+      fetchDetail();
+  },[selectedPolicy])
   const [identityType, setIdentityType] = useState("OTH");
 
   const handleSubmit = (values) => {
@@ -39,7 +65,7 @@ const Holder = () => {
     <Card
       title="Holder Information"
       size="small"
-      loading={selectedPolicyLoading} 
+      loading={loading} 
       style={{ height: "fit-content", width:200}}
     >
       {selectedPolicy === null ? (

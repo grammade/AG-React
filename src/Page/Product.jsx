@@ -1,10 +1,36 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import { Form, Input, Button, Card, Space } from "antd";
 import { usePolicy } from "../Context/PolicyContext";
+import axios from "axios";
+const hostDetail = process.env.REACT_APP_API_PRODUCT_DETAIL;
 
 const Product = () => {
-  const { selectedPolicy, selectedPolicyLoading } = usePolicy();
+  const { selectedPolicy } = usePolicy();
+  const [loading, setLoading] = useState(false);
   const [form] = Form.useForm();
+  
+  useEffect(() => {
+    
+    const fetchDetail = async()=>{
+      setLoading(true);
+      const headers = {
+        "Content-Type": "application/json"
+      }
+      
+      const productid = selectedPolicy.productid;
+      await axios.get(`${hostDetail}/${productid}`, {headers})
+        .then((res) => {
+          console.log('product detail: ', res.data);
+          setTimeout(() => {
+            
+            setLoading(false);
+          }, Math.random()*3 * 1000);
+        })
+    }
+    
+    if(selectedPolicy != null)
+      fetchDetail();
+  },[selectedPolicy])
 
   const handleSubmit = (values) => {
     console.log("Form Submitted:", values);
@@ -14,7 +40,7 @@ const Product = () => {
     <Card
       title="Product Information"
       size="small"
-      loading={selectedPolicyLoading} 
+      loading={loading} 
       style={{ height: "fit-content", width:200}}
     >
       {selectedPolicy === null ? (
